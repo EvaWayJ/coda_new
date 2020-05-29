@@ -1,5 +1,9 @@
+import 'package:codanews/models/parser.dart';
+import 'package:codanews/widgets/chargement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:webfeed/domain/rss_feed.dart';
+import 'package:webfeed/domain/rss_item.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -11,20 +15,44 @@ class Home extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Home> {
-  final url = "http//www.france24.com/fr/actualites/rss";
-
+ RssFeed feed;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    parse();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+centerTitle: true,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-
-        ),
-      ),
+      body: choixDuBody()
     );
+  }
+
+  Widget choixDuBody(){
+    if(feed==null){
+return new Chargement();
+    }
+  }
+  Future<Null> parse() async{
+    RssFeed recu = await Parser().chargerRss();
+    print(recu);
+    if(recu!= null){
+      setState(() {
+        feed = recu;
+        print(feed.items.length);
+        feed.items.forEach((feedItem){
+          RssItem item = feedItem;
+          print(item.title);
+          print(item.description);
+          print(item.pubDate);
+          //print(item.enclosure.url);
+        });
+      });
+    }
   }
 }
