@@ -1,5 +1,6 @@
 import 'package:codanews/models/parser.dart';
 import 'package:codanews/widgets/chargement.dart';
+import 'package:codanews/widgets/liste.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webfeed/domain/rss_feed.dart';
@@ -36,6 +37,13 @@ centerTitle: true,
   Widget choixDuBody(){
     if(feed==null){
 return new Chargement();
+    }else{
+      Orientation o = MediaQuery.of(context).orientation;
+      if(o== Orientation.portrait){
+return new Liste(feed);
+      }else{
+
+      }
     }
   }
   Future<Null> parse() async{

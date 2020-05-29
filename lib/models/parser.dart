@@ -4,7 +4,7 @@ import 'dart:async';
 
 class Parser{
 
-  final url = "https://www.lemonde.fr/politique/rss_full.xml";
+  final url = "http://www.france24.com/fr/actualites/rss";
   Future chargerRss () async{
     final reponse = await get(url);
     if(reponse.statusCode == 200){
