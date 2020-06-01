@@ -1,3 +1,4 @@
+import 'package:codanews/widgets/page_detail.dart';
 import 'package:codanews/widgets/texte_codabee.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,48 +25,51 @@ class _ListeState extends State<Liste>{
         itemCount: widget.feed.items.length ,
         itemBuilder: (context,i){
           RssItem item = widget.feed.items[i];
-      return new Container(
-        child: new Card(
-          elevation: 10.0,
-          child : new InkWell(
-            onTap: (){
-
-            },
-            child: new Column(
-              children: <Widget>[
-                padding(),
-                new Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    textAuteur(item),
-                    pubDate(item)
-                  ],
-                ),
-                padding(),
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Card(
-                      elevation: 7.5,
-                      child: new Container(
-                        width: taille,
-                        child: image(item),
+          return new Container(
+            child: new Card(
+                elevation: 10.0,
+                child : new InkWell(
+                  onTap: (){
+                    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+                      return new PageDetail(item);
+                    })
+                    );
+                  },
+                  child: new Column(
+                    children: <Widget>[
+                      padding(),
+                      new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          textAuteur(item),
+                          pubDate(item)
+                        ],
                       ),
-                    ),
-                    new Container(
-                        width: taille,
-                        child: title(item)
-                    )
-                  ],
-                ),
-                padding()
-              ],
+                      padding(),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Card(
+                            elevation: 7.5,
+                            child: new Container(
+                              width: taille,
+                              child: image(item),
+                            ),
+                          ),
+                          new Container(
+                              width: taille,
+                              child: title(item)
+                          )
+                        ],
+                      ),
+                      padding()
+                    ],
+                  ),
+                )
             ),
-          )
-        ),
-      );
-    });
+          );
+        });
   }
 
   Widget image(RssItem data) {

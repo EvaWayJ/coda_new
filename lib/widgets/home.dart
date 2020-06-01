@@ -1,4 +1,5 @@
 import 'package:codanews/models/parser.dart';
+import 'package:codanews/widgets/Grille.dart';
 import 'package:codanews/widgets/chargement.dart';
 import 'package:codanews/widgets/liste.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Home> {
- RssFeed feed;
+  RssFeed feed;
   @override
   void initState() {
     // TODO: implement initState
@@ -26,23 +27,31 @@ class _MyHomePageState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-centerTitle: true,
-        title: Text(widget.title),
-      ),
-      body: choixDuBody()
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(widget.title),
+          actions: <Widget>[
+            new IconButton(icon: new Icon(Icons.refresh), onPressed: (){
+              setState(() {
+                feed=null;
+                parse();
+              });
+            })
+          ],
+        ),
+        body: choixDuBody()
     );
   }
 
   Widget choixDuBody(){
     if(feed==null){
-return new Chargement();
+      return new Chargement();
     }else{
       Orientation o = MediaQuery.of(context).orientation;
       if(o== Orientation.portrait){
-return new Liste(feed);
+        return new Liste(feed);
       }else{
-
+        return new Grille(feed);
       }
     }
   }
